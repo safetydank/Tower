@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1758132718801034767, guid: dac6af08f7a6b4036ae67af106e803da, type: 3}
   scale:
-    min: 1.1039964
-    max: 1.3572274
+    min: 0.5
+    max: 1
+  speed:
+    min: 0.75
+    max: 1.25
+  pathOffset:
+    min: -0.25
+    max: 0.25
