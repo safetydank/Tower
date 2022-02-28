@@ -16,3 +16,4 @@ MonoBehaviour:
   emptyPrefab: {fileID: 9114941999202772245, guid: 230530e12f98b4234bec8c3c42f8a09f, type: 3}
   wallPrefab: {fileID: 9037718444854880435, guid: a0ab019694ee84bee8393a0f73bd995e, type: 3}
   spawnPointPrefab: {fileID: 4636769853289803792, guid: 87c13ff9dedee4d7c8b20d881a6e255d, type: 3}
+  towerPrefab: {fileID: -2513004406620957647, guid: d1d40d09a7ffa4b7b8987587baa3a617, type: 3}

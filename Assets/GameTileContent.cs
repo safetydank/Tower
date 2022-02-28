@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[SelectionBase]
 public class GameTileContent : MonoBehaviour
 {
 
@@ -20,8 +21,13 @@ public class GameTileContent : MonoBehaviour
         }
     }
 
+    public bool BlocksPath => Type == GameTileContentType.Wall || Type == GameTileContentType.Tower;
+
 	public void Recycle()
     {
 		originFactory.Reclaim(this);
 	}
+
+    public virtual void GameUpdate() { }
+
 }
