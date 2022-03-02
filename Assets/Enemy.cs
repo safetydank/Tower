@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     float pathOffset;
     
     float speed;
+    
+    float Health { get; set; }
 
     public EnemyFactory OriginFactory
     {
@@ -38,6 +40,7 @@ public class Enemy : MonoBehaviour
 		model.localScale = new Vector3(scale, scale, scale);
         this.speed = speed;
         this.pathOffset = pathOffset;
+        Health = 100f * scale;
 	}
 
     void PrepareIntro()
@@ -73,6 +76,12 @@ public class Enemy : MonoBehaviour
 
     public bool GameUpdate()
     {
+        if (Health <= 0f)
+        {
+            OriginFactory.Reclaim(this);
+            return false;
+        }
+
         progress += Time.deltaTime * progressFactor;
         while (progress >= 1f)
         {
@@ -162,4 +171,11 @@ public class Enemy : MonoBehaviour
         transform.localPosition = positionFrom;
         progressFactor = speed / (Mathf.PI * Mathf.Max(Mathf.Abs(pathOffset), 0.2f));
     }
+
+    public void ApplyDamage(float damage)
+    {
+        Debug.Assert(damage >= 0f, "Negative damage applied.");
+        Health -= damage;
+    }
+
 }

@@ -6,7 +6,15 @@ public class Tower : GameTileContent
     float targetingRange = 1.5f;
 
     TargetPoint target;
-	static Collider[] targetsBuffer = new Collider[1];
+	static Collider[] targetsBuffer = new Collider[100];
+    
+    [SerializeField]
+    Transform turret = default, laserBeam = default;
+    
+    Vector3 laserBeamScale;
+    
+    [SerializeField, Range(1f, 100f)]
+    float damagePerSecond = 10f;
 
     void OnDrawGizmosSelected()
     {
@@ -25,8 +33,27 @@ public class Tower : GameTileContent
         Debug.Log("Searching for target...");
         if (TrackTarget() || AcquireTarget())
         {
-            Debug.Log("Locked on target");
+            // Debug.Log("Locked on target");
+            Shoot();
         }
+        else
+        {
+            laserBeam.localScale = Vector3.zero;
+        }
+    }
+
+    void Shoot()
+    {
+        Vector3 point = target.Position;
+        turret.LookAt(point);
+        laserBeam.localRotation = turret.localRotation;
+        
+		float d = Vector3.Distance(turret.position, point);
+		laserBeamScale.z = d;
+		laserBeam.localScale = laserBeamScale;
+        laserBeam.localPosition = turret.localPosition + 0.5f * d * laserBeam.forward;
+        
+        target.Enemy.ApplyDamage(damagePerSecond * Time.deltaTime);
     }
 
     const int enemyLayerMask = 1 << 9;
@@ -40,7 +67,8 @@ public class Tower : GameTileContent
         );
         if (hits > 0)
         {
-            target = targetsBuffer[0].GetComponent<TargetPoint>();
+            var ihit = Random.Range(0, hits);
+            target = targetsBuffer[ihit].GetComponent<TargetPoint>();
             Debug.Assert(target != null, "Targeted non-enemy!", targetsBuffer[0]);
             return true;
         }
@@ -65,6 +93,11 @@ public class Tower : GameTileContent
             return false;
         }
         return true;
+    }
+
+    void Awake()
+    {
+        laserBeamScale = laserBeam.localScale;
     }
 
     // Start is called before the first frame update
