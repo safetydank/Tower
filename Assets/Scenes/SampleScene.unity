@@ -295,10 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e562c8dae749ca9f666ab4864f391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardSize: {x: 11, y: 11}
+  boardSize: {x: 20, y: 20}
   board: {fileID: 653248453}
   tileContentFactory: {fileID: 11400000, guid: d4c6b2de265494c03a0f33c80185757a, type: 2}
   enemyFactory: {fileID: 11400000, guid: a2f218ed9b012408ba2c4fbcb5ca1f48, type: 2}
+  warFactory: {fileID: 11400000, guid: c41225da7ef9c49c9a5d3c30cd5a009e, type: 2}
   spawnSpeed: 1
 --- !u!114 &912708589
 MonoBehaviour:
@@ -407,7 +408,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 12.5, z: 0}
+  m_LocalPosition: {x: 0, y: 25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

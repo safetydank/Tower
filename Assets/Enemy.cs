@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : GameBehavior
 {
 
     EnemyFactory originFactory;
@@ -74,7 +74,7 @@ public class Enemy : MonoBehaviour
         PrepareIntro();
     }
 
-    public bool GameUpdate()
+    public override bool GameUpdate()
     {
         if (Health <= 0f)
         {
