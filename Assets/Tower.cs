@@ -13,17 +13,22 @@ public abstract class Tower : GameTileContent
 
     protected bool AcquireTarget(out TargetPoint target)
     {
-        Vector3 a = transform.localPosition;
-        Vector3 b = a;
-        b.y += 2f;
-        int hits = Physics.OverlapCapsuleNonAlloc(
-            a, b, targetingRange, targetsBuffer, enemyLayerMask
-        );
-        if (hits > 0)
+        // Vector3 a = transform.localPosition;
+        // Vector3 b = a;
+        // b.y += 2f;
+        // int hits = Physics.OverlapCapsuleNonAlloc(
+        //     a, b, targetingRange, targetsBuffer, enemyLayerMask
+        // );
+        // if (hits > 0)
+        // {
+        //     var ihit = Random.Range(0, hits);
+        //     target = targetsBuffer[ihit].GetComponent<TargetPoint>();
+        //     Debug.Assert(target != null, "Targeted non-enemy!", targetsBuffer[0]);
+        //     return true;
+        // }
+        if (TargetPoint.FillBuffer(transform.localPosition, targetingRange))
         {
-            var ihit = Random.Range(0, hits);
-            target = targetsBuffer[ihit].GetComponent<TargetPoint>();
-            Debug.Assert(target != null, "Targeted non-enemy!", targetsBuffer[0]);
+            target = TargetPoint.RandomBuffered;
             return true;
         }
         target = null;

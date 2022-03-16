@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: War Factory
   m_EditorClassIdentifier: 
   shellPrefab: {fileID: 691537097896025695, guid: 706f2052ec8f649e59c848aa057a72e6, type: 3}
+  explosionPrefab: {fileID: 6906601746152934570, guid: 0133a7b5893c04610927694329aa339a, type: 3}

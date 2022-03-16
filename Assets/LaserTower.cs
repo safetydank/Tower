@@ -16,7 +16,7 @@ public class LaserTower : Tower
 
     public override void GameUpdate()
     {
-        Debug.Log("Searching for target...");
+        // Debug.Log("Searching for target...");
         if (TrackTarget(ref target) || AcquireTarget(out target))
         {
             // Debug.Log("Locked on target");

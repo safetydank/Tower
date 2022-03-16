@@ -101,7 +101,14 @@ public class Game : MonoBehaviour
         enemies.Add(enemy);
     }
 
-	void HandleTouch()
+    public static Explosion SpawnExplosion()
+    {
+        Explosion explosion = instance.warFactory.Explosion;
+        instance.nonEnemies.Add(explosion);
+        return explosion;
+    }
+
+    void HandleTouch()
     {
 		GameTile tile = board.GetTile(TouchRay);
 		if (tile != null)
