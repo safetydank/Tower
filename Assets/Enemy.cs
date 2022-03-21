@@ -19,7 +19,7 @@ public class Enemy : GameBehavior
     float pathOffset;
     
     float speed;
-    
+
     float Health { get; set; }
 
     public EnemyFactory OriginFactory
@@ -34,13 +34,13 @@ public class Enemy : GameBehavior
 
     public float Scale { get; private set; }
 
-	public void Initialize(float scale, float speed, float pathOffset)
+	public void Initialize(float scale, float speed, float pathOffset, float health)
 	{
         Scale = scale;
 		model.localScale = new Vector3(scale, scale, scale);
         this.speed = speed;
         this.pathOffset = pathOffset;
-        Health = 100f * scale;
+        Health = health;
 	}
 
     void PrepareIntro()
