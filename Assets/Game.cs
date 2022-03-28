@@ -14,14 +14,7 @@ public class Game : MonoBehaviour
     GameTileContentFactory tileContentFactory = default;
     
     [SerializeField]
-    EnemyFactory enemyFactory = default;
-    
-    [SerializeField]
     WarFactory warFactory = default;
-    
-    [SerializeField, Range(0.1f, 10f)]
-    float spawnSpeed = 1f;
-    float spawnProgress;
     
     GameBehaviorCollection enemies = new GameBehaviorCollection();
     GameBehaviorCollection nonEnemies = new GameBehaviorCollection();
@@ -30,11 +23,43 @@ public class Game : MonoBehaviour
     
     static Game instance;
 
+    [SerializeField]
+	GameScenario scenario = default;
+
+	GameScenario.State activeScenario;
+
+	[SerializeField, Range(0, 100)]
+	int startingPlayerHealth = 10;
+    
+    int playerHealth;
+
+    const float pausedTimeScale = 0f;
+    
+    [SerializeField, Range(1f, 10f)]
+    float playSpeed = 1f;
+
 	void Awake()
     {
+        playerHealth = startingPlayerHealth;
 		board.Initialize(boardSize, tileContentFactory);
         board.ShowGrid = true;
+        activeScenario = scenario.Begin();
 	}
+
+    void BeginNewGame()
+    {
+        playerHealth = startingPlayerHealth;
+        enemies.Clear();
+        nonEnemies.Clear();
+        board.Clear();
+        activeScenario = scenario.Begin();
+    }
+
+    public static void EnemyReachedDestination()
+    {
+        instance.playerHealth -= 1;
+    }
+
     void OnValidate()
     {
         if (boardSize.x < 2)
@@ -79,12 +104,32 @@ public class Game : MonoBehaviour
         {
             selectedTowerType = TowerType.Mortar;
         }
-        
-        spawnProgress += spawnSpeed * Time.deltaTime;
-        while (spawnProgress >= 1f)
+
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            spawnProgress -= 1f;
-            SpawnEnemy();
+            Time.timeScale =
+                Time.timeScale > pausedTimeScale ? pausedTimeScale : playSpeed;
+        }
+        else if (Time.timeScale > pausedTimeScale)
+        {
+            Time.timeScale = playSpeed;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            BeginNewGame();
+        }
+
+		if (playerHealth <= 0 && startingPlayerHealth > 0) {
+			Debug.Log("Defeat!");
+			BeginNewGame();
+		}
+
+        if (!activeScenario.Progress() && enemies.IsEmpty) 
+        {
+            Debug.Log("Victory!");
+            BeginNewGame();
+            activeScenario.Progress();
         }
         
         enemies.GameUpdate();
@@ -93,13 +138,15 @@ public class Game : MonoBehaviour
         nonEnemies.GameUpdate();
 	}
 
-    void SpawnEnemy()
+    public static void SpawnEnemy(EnemyFactory factory, EnemyType type)
     {
-        GameTile spawnPoint = board.GetSpawnPoint(Random.Range(0, board.SpawnPointCount));
+        GameTile spawnPoint = instance.board.GetSpawnPoint(
+            Random.Range(0, instance.board.SpawnPointCount)
+        );
         // Enemy enemy = enemyFactory.Get();
-        Enemy enemy = enemyFactory.Get((EnemyType)(Random.Range(0, 3)));
+        Enemy enemy = factory.Get(type);
         enemy.SpawnOn(spawnPoint);
-        enemies.Add(enemy);
+        instance.enemies.Add(enemy);
     }
 
     public static Explosion SpawnExplosion()
@@ -146,4 +193,5 @@ public class Game : MonoBehaviour
         instance.nonEnemies.Add(shell);
         return shell;
     }
+
 }

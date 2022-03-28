@@ -56,13 +56,26 @@ public class GameBoard : MonoBehaviour
 					GameTile.MakeNorthSouthNeighbors(tile, tiles[i-size.x]);
 				}
                 
-                tile.Content = contentFactory.Get(GameTileContentType.Empty);
+                // tile.Content = contentFactory.Get(GameTileContentType.Empty);
             }
         }
-        ToggleDestination(tiles[tiles.Length / 2]);
+        // ToggleDestination(tiles[tiles.Length / 2 + (size.x / 2)]);
+        // ToggleSpawnPoint(tiles[0]);
+        Clear();
+    }
+
+    public void Clear()
+    {
+        foreach (GameTile tile in tiles)
+        {
+            tile.Content = contentFactory.Get(GameTileContentType.Empty);
+        }
+        spawnPoints.Clear();
+        updatingContent.Clear();
+        ToggleDestination(tiles[tiles.Length / 2 + (size.x / 2) - 1]);
         ToggleSpawnPoint(tiles[0]);
     }
-    
+
     bool FindPaths()
     {
 		foreach (GameTile tile in tiles)

@@ -78,7 +78,7 @@ public class Enemy : GameBehavior
     {
         if (Health <= 0f)
         {
-            OriginFactory.Reclaim(this);
+            Recycle();
             return false;
         }
 
@@ -89,7 +89,8 @@ public class Enemy : GameBehavior
             // tileTo = tileTo.NextTileOnPath;
             if (tileTo == null)
             {
-                OriginFactory.Reclaim(this);
+                Game.EnemyReachedDestination();
+                Recycle();
                 return false;
             }
             progress = (progress - 1f) / progressFactor;
@@ -178,4 +179,8 @@ public class Enemy : GameBehavior
         Health -= damage;
     }
 
+    public override void Recycle()
+    {
+        OriginFactory.Reclaim(this);
+    }
 }
